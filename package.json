@@ -1,0 +1,20 @@
+{
+  "name": "n8n-ultimate-cheat",
+  "version": "1.0.0",
+  "description": "The ultimate interactive cheat sheet for n8n JSON expressions, functions, and workflow patterns.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve .",
+    "lint": "echo 'No linting configured yet.'"
+  },
+  "keywords": [
+    "n8n",
+    "cheat sheet",
+    "expressions",
+    "workflows",
+    "automation"
+  ],
+  "author": "Kookylo and contributors",
+  "license": "MIT"
+}
