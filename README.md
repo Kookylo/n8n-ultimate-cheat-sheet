@@ -8,7 +8,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/Kookylo/n8n-ultimate-cheat-sheet?style=social)](https://github.com/Kookylo/n8n-ultimate-cheat-sheet/network/members)
 [![GitHub issues](https://img.shields.io/github/issues/Kookylo/n8n-ultimate-cheat-sheet)](https://github.com/Kookylo/n8n-ultimate-cheat-sheet/issues)
 
-[📖 View Live Interactive Cheat Sheet]([https://kookylo.github.io/n8n-ultimate-cheat-sheet](https://n8ncheaters.codeshiftautomations.online/)) • [🐛 Report Bug](https://github.com/Kookylo/n8n-ultimate-cheat-sheet/issues) • [💡 Request Feature](https://github.com/Kookylo/n8n-ultimate-cheat-sheet/issues)
+[📖 View Live Interactive Cheat Sheet]([[https://kookylo.github.io/n8n-ultimate-cheat-sheet](https://n8ncheaters.codeshiftautomations.online/)](https://n8ncheaters.codeshiftautomations.online/)) • [🐛 Report Bug](https://github.com/Kookylo/n8n-ultimate-cheat-sheet/issues) • [💡 Request Feature](https://github.com/Kookylo/n8n-ultimate-cheat-sheet/issues)
 
 </div>
 
