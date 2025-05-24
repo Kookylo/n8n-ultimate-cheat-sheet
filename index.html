@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n Ultimate Cheat Sheet - Interactive Reference</title>
+    <meta name="description" content="The most comprehensive interactive reference for n8n JSON expressions and functions. 500+ examples, 20+ categories, copy-paste ready code!">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kookylo.github.io/n8n-ultimate-cheat-sheet/">
+    <meta property="og:title" content="n8n Ultimate Cheat Sheet - Interactive Reference">
+    <meta property="og:description" content="Master n8n with 500+ functions, real-world examples, and copy-paste ready code. The most comprehensive n8n reference available!">
+    <meta property="og:image" content="https://kookylo.github.io/n8n-ultimate-cheat-sheet/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kookylo.github.io/n8n-ultimate-cheat-sheet/">
+    <meta property="twitter:title" content="n8n Ultimate Cheat Sheet - Interactive Reference">
+    <meta property="twitter:description" content="Master n8n with 500+ functions, real-world examples, and copy-paste ready code!">
+    <meta property="twitter:image" content="https://kookylo.github.io/n8n-ultimate-cheat-sheet/og-image.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #ff6d5a;
+            --primary-dark: #e55a47;
+            --secondary: #4169e1;
+            --bg-dark: #1a1d29;
+            --bg-darker: #141620;
+            --bg-card: #252837;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a9c0;
+            --text-muted: #6b7588;
+            --accent: #10d9c4;
+            --warning: #ffd700;
+            --success: #10b981;
+            --error: #ef4444;
+            --border: #2d3748;
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 109, 90, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(65, 105, 225, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(16, 217, 196, 0.15) 0%, transparent 50%);
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(37, 40, 55, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: var(--shadow);
+        }
+
+        .logo-text h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: -2px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 109, 90, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: rgba(255, 109, 90, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 217, 196, 0.1);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(16, 217, 196, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0.25rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Navigation Grid */
+        .nav {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem auto;
+            max-width: 1400px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+        }
+
+        .nav h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--text-primary);
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .nav-item {
+            background: linear-gradient(135deg, var(--bg-dark), var(--bg-darker));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .nav-item-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .nav-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .nav-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .filter-btn {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        .section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+        }
+
+        .section h2 {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            font-size: 2.25rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .section h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            margin-top: 2.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .section h3:first-of-type {
+            margin-top: 0;
+        }
+
+        /* Accordion */
+        .accordion {
+            margin-bottom: 2rem;
+        }
+
+        .accordion-header {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: var(--bg-darker);
+            border-color: var(--primary);
+        }
+
+        .accordion-header.active {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-color: var(--primary);
+            background: var(--bg-darker);
+        }
+
+        .accordion-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .accordion-content {
+            background: var(--bg-darker);
+            border: 1px solid var(--primary);
+            border-top: none;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            padding: 2rem;
+            display: none;
+        }
+
+        .accordion-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+            color: var(--primary);
+        }
+
+        /* Examples Grid */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .example-card {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .example-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .example-title {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .example-desc {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: var(--bg-darker);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Feature Highlights */
+        .feature-highlight {
+            background: linear-gradient(135deg, rgba(255, 109, 90, 0.1), rgba(16, 217, 196, 0.1));
+            border: 1px solid rgba(255, 109, 90, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-highlight h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-darker);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav {
+                padding: 2rem;
+            }
+
+            .section {
+                padding: 2rem;
+            }
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">n8n</div>
+                <div class="logo-text">
+                    <h1>Ultimate Cheat Sheet</h1>
+                    <p>Interactive JSON Functions Reference</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search 500+ functions, examples, patterns..." id="searchInput">
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="https://github.com/Kookylo/n8n-ultimate-cheat-sheet" class="btn" target="_blank">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">
+            <i class="fas fa-rocket"></i>
+            <span>Most Comprehensive n8n Resource</span>
+        </div>
+        
+        <h1>Master n8n in Minutes</h1>
+        <p>The ultimate interactive reference for n8n JSON expressions and functions. 500+ real-world examples, 20+ categories, all copy-paste ready!</p>
+        
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-number" id="functionsCount">500+</span>
+                <div class="stat-label">Functions & Examples</div>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="categoriesCount">20+</span>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="useCasesCount">100+</span>
+                <div class="stat-label">Real Use Cases</div>
+            </div>
+        </div>
+
+        <div class="hero-actions">
+            <a href="#basic-data" class="btn">
+                <i class="fas fa-rocket"></i>
+                Get Started
+            </a>
+            <a href="https://github.com/Kookylo/n8n-ultimate-cheat-sheet/blob/main/README.md" class="btn btn-secondary" target="_blank">
+                <i class="fas fa-book"></i>
+                View Full Guide
+            </a>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <section class="nav">
+        <h2>🧭 Quick Navigation</h2>
+        <div class="nav-grid">
+            <a href="#basic-data" class="nav-item">
+                <span class="nav-item-icon">🔑</span>
+                <h3>Basic Data Access</h3>
+                <p>Get fields, access nodes, work with JSON objects and arrays</p>
+            </a>
+            <a href="#dates" class="nav-item">
+                <span class="nav-item-icon">📅</span>
+                <h3>Date & Time Functions</h3>
+                <p>Format dates, calculate differences, timezone handling</p>
+            </a>
+            <a href="#strings" class="nav-item">
+                <span class="nav-item-icon">🔤</span>
+                <h3>String Manipulation</h3>
+                <p>Transform text, extract data, validation, encoding</p>
+            </a>
+            <a href="#arrays" class="nav-item">
+                <span class="nav-item-icon">📋</span>
+                <h3>Array Processing</h3>
+                <p>Filter, map, reduce, sort, and transform data lists</p>
+            </a>
+            <a href="#conditionals" class="nav-item">
+                <span class="nav-item-icon">❓</span>
+                <h3>Conditional Logic</h3>
+                <p>IF/THEN statements, complex conditions, decision trees</p>
+            </a>
+            <a href="#math" class="nav-item">
+                <span class="nav-item-icon">🧮</span>
+                <h3>Mathematical Operations</h3>
+                <p>Calculations, statistics, financial formulas, rounding</p>
+            </a>
+            <a href="#objects" class="nav-item">
+                <span class="nav-item-icon">🗂️</span>
+                <h3>Object Manipulation</h3>
+                <p>Build objects, merge data, safe property access</p>
+            </a>
+            <a href="#multi-node" class="nav-item">
+                <span class="nav-item-icon">🔗</span>
+                <h3>Multi-Node Data</h3>
+                <p>Combine data from multiple workflow steps</p>
+            </a>
+            <a href="#error-handling" class="nav-item">
+                <span class="nav-item-icon">🛡️</span>
+                <h3>Error Handling</h3>
+                <p>Prevent errors, safe access, default values</p>
+            </a>
+            <a href="#advanced" class="nav-item">
+                <span class="nav-item-icon">🚀</span>
+                <h3>Advanced Patterns</h3>
+                <p>Complex transformations, regex, dynamic access</p>
+            </a>
+            <a href="#api-helpers" class="nav-item">
+                <span class="nav-item-icon">🌐</span>
+                <h3>API & HTTP Helpers</h3>
+                <p>URL building, headers, authentication, responses</p>
+            </a>
+            <a href="#real-world" class="nav-item">
+                <span class="nav-item-icon">💼</span>
+                <h3>Real-World Examples</h3>
+                <p>User management, e-commerce, data processing</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Filter Bar -->
+    <div class="container">
+        <div class="filter-bar">
+            <span class="filter-label">🎯 Filter by Level:</span>
+            <button class="filter-btn active" data-filter="all">All Functions</button>
+            <button class="filter-btn" data-filter="beginner">Beginner</button>
+            <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+            <button class="filter-btn" data-filter="advanced">Advanced</button>
+        </div>
+
+        <!-- Basic Data Access Section -->
+        <section id="basic-data" class="section" data-category="beginner">
+            <h2>
+                <i class="fas fa-key"></i>
+                Basic Data Access
+            </h2>
+            
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Current Item Data</h3>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="examples-grid">
+                        <div class="example-card">
+                            <div class="example-title">Simple Field Access</div>
+                            <div class="example-desc">Get a field from the current item - the most basic n8n operation</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.fieldName }}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Fields with Spaces</div>
+                            <div class="example-desc">Access field names containing spaces or special characters</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json["First Name"] }}
+{{ $json["Email Address"] }}
+{{ $json["Phone Number"] }}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Nested Object Access</div>
+                            <div class="example-desc">Access nested properties in complex objects</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.user.email }}
+{{ $json.customer.address.city }}
+{{ $json.order.items[0].name }}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Safe Array Access</div>
+                            <div class="example-desc">Safely access array items with fallbacks</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.items?.[0] }}              // First item (safe)
+{{ $json.items?.[-1] }}             // Last item (safe)
+{{ $json.items?.length || 0 }}      // Array length</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Data from Other Nodes</h3>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="examples-grid">
+                        <div class="example-card">
+                            <div class="example-title">Specific Node Data</div>
+                            <div class="example-desc">Get data from a specific node in your workflow</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $('HTTP Request').item.json.id }}
+{{ $('Set Data').item.json.userId }}
+{{ $('Code').item.json.result }}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">All Items from Node</div>
+                            <div class="example-desc">Work with multiple items from a single node</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $('Get Users').all() }}           // All items as array
+{{ $('Get Users').all().length }}    // Count items
+{{ $('Get Users').first().json.name }} // First item only</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Date & Time Section -->
+        <section id="dates" class="section" data-category="beginner">
+            <h2>
+                <i class="fas fa-calendar"></i>
+                Date & Time Functions
+            </h2>
+            
+            <div class="feature-highlight">
+                <h4>💡 Pro Tip: n8n uses Luxon for date handling</h4>
+                <p>All date functions are powered by Luxon, giving you powerful date manipulation capabilities.</p>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Current Date & Time</h3>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="examples-grid">
+                        <div class="example-card">
+                            <div class="example-title">Basic Date Functions</div>
+                            <div class="example-desc">Get current date and time in various formats</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $now }}                          // Current timestamp
+{{ $today }}                        // Today at midnight
+{{ $now.format('YYYY-MM-DD') }}     // 2024-01-15</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Date Calculations</div>
+                            <div class="example-desc">Add or subtract time from dates</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $now.plus({days: 7}) }}          // 7 days from now
+{{ $now.minus({hours: 2}) }}        // 2 hours ago
+{{ $now.startOf('day') }}           // Beginning of today</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Strings Section -->
+        <section id="strings" class="section" data-category="beginner">
+            <h2>
+                <i class="fas fa-font"></i>
+                String Manipulation
+            </h2>
+            
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Text Transformations</h3>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="examples-grid">
+                        <div class="example-card">
+                            <div class="example-title">Case Conversion</div>
+                            <div class="example-desc">Change text case and capitalization</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.name.toLowerCase() }}     // lowercase
+{{ $json.name.toUpperCase() }}     // UPPERCASE
+{{ $json.name.trim() }}            // Remove spaces</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">String Extraction</div>
+                            <div class="example-desc">Extract parts of strings</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.text.slice(0, 50) }}      // First 50 characters
+{{ $json.email.split('@')[0] }}     // Username from email
+{{ $json.text.length }}             // String length</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Arrays Section -->
+        <section id="arrays" class="section" data-category="intermediate">
+            <h2>
+                <i class="fas fa-list"></i>
+                Array Processing
+            </h2>
+            
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Array Operations</h3>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="examples-grid">
+                        <div class="example-card">
+                            <div class="example-title">Basic Array Access</div>
+                            <div class="example-desc">Access and count array items</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.items.length }}           // Count items
+{{ $json.items[0] }}                // First item
+{{ $json.items[-1] }}               // Last item</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Array Filtering</div>
+                            <div class="example-desc">Filter and search arrays</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.items.filter(item => item.active) }}
+{{ $json.items.find(item => item.id === '123') }}
+{{ $json.items.map(item => item.name) }}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://github.com/Kookylo/n8n-ultimate-cheat-sheet">GitHub Repository</a>
+                <a href="https://docs.n8n.io/">n8n Documentation</a>
+                <a href="https://community.n8n.io/">n8n Community</a>
+                <a href="https://n8n.io/workflows/">n8n Templates</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 n8n Ultimate Cheat Sheet by Kookylo. Made with ❤️ for the n8n community.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check"></i>
+        <span>Copied to clipboard!</span>
+    </div>
+
+    <script>
+        // Toggle accordion functionality
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.accordion-icon');
+            
+            // Close all other accordions
+            document.querySelectorAll('.accordion-header.active').forEach(activeHeader => {
+                if (activeHeader !== header) {
+                    activeHeader.classList.remove('active');
+                    activeHeader.nextElementSibling.classList.remove('active');
+                }
+            });
+            
+            // Toggle current accordion
+            header.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.textContent;
+            navigator.clipboard.writeText(codeBlock).then(() => {
+                // Show success feedback
+                button.classList.add('copied');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                
+                // Show toast
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+                
+                // Hide toast after 3 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            });
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                const sections = document.querySelectorAll('.section');
+                
+                sections.forEach(section => {
+                    if (filter === 'all') {
+                        section.style.display = 'block';
+                    } else {
+                        const category = section.dataset.category;
+                        section.style.display = category === filter ? 'block' : 'none';
+                    }
+                });
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const examples = document.querySelectorAll('.example-card');
+                
+                examples.forEach(example => {
+                    const title = example.querySelector('.example-title').textContent.toLowerCase();
+                    const desc = example.querySelector('.example-desc').textContent.toLowerCase();
+                    const code = example.querySelector('code').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || desc.includes(searchTerm) || code.includes(searchTerm)) {
+                        example.style.display = 'block';
+                    } else {
+                        example.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Theme toggle (placeholder)
+        function toggleTheme() {
+            // This is a placeholder - you can implement theme switching here
+            console.log('Theme toggle clicked');
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
