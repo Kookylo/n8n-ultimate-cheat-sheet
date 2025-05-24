@@ -1,0 +1,12 @@
+{
+  "name": "n8n-ultimate-cheat-sheet",
+  "version": "1.0.0",
+  "description": "Interactive n8n cheat sheet with 500+ examples",
+  "scripts": {
+    "build": "mkdir -p dist && cp *.html dist/ && cp *.md dist/ && echo 'Build complete'",
+    "start": "python -m http.server 8000"
+  },
+  "keywords": ["n8n", "cheat-sheet", "automation", "workflow"],
+  "author": "Kookylo",
+  "license": "MIT"
+}
