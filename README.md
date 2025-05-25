@@ -6,6 +6,8 @@
 
 **The most comprehensive reference for n8n expressions & functions**
 
+> 🚦 **Check out the [Project Roadmap](ROADMAP.md) for upcoming features, milestones, and ways to get involved!**
+
 [![GitHub stars](https://img.shields.io/github/stars/yourusername/n8n-cheatsheet?style=social)](https://github.com/yourusername/n8n-cheatsheet/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/yourusername/n8n-cheatsheet?style=social)](https://github.com/yourusername/n8n-cheatsheet/network/members)
 [![GitHub issues](https://img.shields.io/github/issues/yourusername/n8n-cheatsheet)](https://github.com/yourusername/n8n-cheatsheet/issues)
@@ -27,6 +29,8 @@ Stop searching through documentation! This cheat sheet contains **everything** y
 - 📱 **Mobile Friendly** - Reference anywhere
 
 ## 📋 Table of Contents
+
+- [🗺️ Roadmap](ROADMAP.md)
 
 - [🔑 Basic Data Access](#-basic-data-access)
 - [📅 Date & Time Functions](#-date--time-functions)
