@@ -978,7 +978,55 @@
                                 </button>
                                 <pre><code>{{ $json.items?.[0] }}              // First item (safe)
 {{ $json.items?.[-1] }}             // Last item (safe)
-{{ $json.items?.length || 0 }}      // Array length</code></pre>
+{{ $json.items?.length || 0 }}      // Array length
+{{ $json.items?.[0] ?? 'default' }}  // Fallback for undefined
+{{ $json.items?.slice(0, 3) }}       // First 3 items
+{{ $json.items?.join(', ') }}        // Join array to string</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="example-card">
+                            <div class="example-title">Object Operations</div>
+                            <div class="example-desc">Common operations with objects</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ Object.keys($json) }}           // Get all property names
+{{ Object.values($json) }}         // Get all property values
+{{ Object.entries($json) }}        // Get [key, value] pairs
+{{ { ...$json, newProp: 'value' } }} // Add/override property
+{{ $json.hasOwnProperty('field') }} // Check if property exists</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="example-card">
+                            <div class="example-title">Type Checking</div>
+                            <div class="example-desc">Check variable types in n8n</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ typeof $json.value }}           // Check type ('string', 'number', etc.)
+{{ Array.isArray($json.items) }}   // Check if array
+{{ $json.value === null }}         // Check for null
+{{ $json.value === undefined }}    // Check for undefined
+{{ $json.value != null }}          // Not null or undefined</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="example-card">
+                            <div class="example-title">Data Transformation</div>
+                            <div class="example-desc">Common data transformations</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ JSON.stringify($json) }}        // Convert to JSON string
+{{ JSON.parse($json.string) }}     // Parse JSON string
+{{ Number($json.string) }}         // Convert to number
+{{ String($json.number) }}         // Convert to string
+{{ Boolean($json.value) }}         // Convert to boolean</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1063,7 +1111,90 @@
                                 </button>
                                 <pre><code>{{ $now.plus({days: 7}) }}          // 7 days from now
 {{ $now.minus({hours: 2}) }}        // 2 hours ago
-{{ $now.startOf('day') }}           // Beginning of today</code></pre>
+{{ $now.startOf('day') }}           // Beginning of today
+{{ $now.endOf('month') }}           // End of current month
+{{ $now.plus({months: 1, days: 5 }) }} // 1 month and 5 days from now
+{{ $now.minus({years: 1 }) }}       // 1 year ago</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="example-card">
+                            <div class="example-title">Date Formatting</div>
+                            <div class="example-desc">Format dates in various ways</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $now.toFormat('yyyy-MM-dd') }}    // 2024-01-15
+{{ $now.toFormat('MM/dd/yyyy') }}    // 01/15/2024
+{{ $now.toFormat('MMMM d, yyyy') }}  // January 15, 2024
+{{ $now.toFormat('h:mm a') }}        // 2:30 PM
+{{ $now.toISO() }}                   // ISO 8601 format
+{{ $now.toLocaleString() }}          // Localized date string</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="example-card">
+                            <div class="example-title">Date Comparisons</div>
+                            <div class="example-desc">Compare dates and times</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $now > $json.expiryDate }}       // Is current date after expiry?
+{{ $now < $json.startDate }}       // Is current date before start?
+{{ $now.diff($json.date, 'days').days }}  // Days between dates
+{{ $now.hasSame($json.date, 'day') }}     // Same day?
+{{ $now > $now.startOf('day') && $now < $now.endOf('day') }} // Is current time today?</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Time Zones</div>
+                            <div class="example-desc">Work with different time zones</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $now.setZone('America/New_York') }} // Convert to NY time
+{{ $now.offsetNameShort }}          // Current timezone (e.g., EST, EDT)
+{{ $now.offset }}                   // UTC offset in minutes
+{{ $now.toUTC().toISO() }}          // Convert to UTC
+{{ $now.toLocal().toISO() }}        // Convert to local time</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Date Components</div>
+                            <div class="example-desc">Extract parts of a date</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $now.year }}                     // Current year (2024)
+{{ $now.month }}                    // Month number (1-12)
+{{ $now.day }}                      // Day of month (1-31)
+{{ $now.weekday }}                  // Day of week (1-7, 1=Monday)
+{{ $now.hour }}                     // Current hour (0-23)
+{{ $now.minute }}                   // Current minute (0-59)
+{{ $now.second }}                   // Current second (0-59)
+{{ $now.ordinal }}                  // Day of year (1-366)</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Date Creation & Parsing</div>
+                            <div class="example-desc">Create and parse dates from strings</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $moment('2024-12-25') }}          // Create from ISO string
+{{ $moment('12/25/2024', 'MM/DD/YYYY') }} // Parse custom format
+{{ $moment($json.timestamp) }}       // Parse from timestamp
+{{ $moment().set({hour: 14, minute: 30 }) }} // Set specific time
+{{ $moment.fromISO('2024-12-25T14:30:00') }} // Parse ISO string
+{{ $moment.fromFormat('25-12-2024', 'dd-MM-yyyy') }} // Parse with format</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1107,7 +1238,93 @@
                                 </button>
                                 <pre><code>{{ $json.text.slice(0, 50) }}      // First 50 characters
 {{ $json.email.split('@')[0] }}     // Username from email
-{{ $json.text.length }}             // String length</code></pre>
+{{ $json.text.length }}             // String length
+{{ $json.text.substring(5, 10) }}    // Characters 5-9
+{{ $json.text.substr(5, 5) }}        // 5 characters starting at index 5
+{{ $json.text.split(' ')[0] }}       // First word
+{{ $json.text.split(/[\s,]+/) }}     // Split by spaces or commas</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">String Search</div>
+                            <div class="example-desc">Find text within strings</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.text.includes('search') }}    // Check if contains
+{{ $json.text.startsWith('http') }}   // Check prefix
+{{ $json.text.endsWith('.com') }}     // Check suffix
+{{ $json.text.indexOf('find') }}      // First occurrence index
+{{ $json.text.lastIndexOf('.') }}     // Last occurrence index
+{{ $json.text.match(/\d+/g) }}       // Find all numbers
+{{ $json.text.search(/\d/) }}        // Index of first digit</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">String Replacement</div>
+                            <div class="example-desc">Modify string content</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.text.replace('old', 'new') }}
+{{ $json.text.replace(/\s+/g, '-') }}  // Replace spaces with hyphens
+{{ $json.text.replace(/[0-9]/g, '#') }}  // Replace all digits
+{{ $json.text.replace(/^\s+|\s+$/g, '') }} // Trim whitespace
+{{ $json.text.replace(/\b\w/g, l => l.toUpperCase()) }} // Title case
+{{ $json.text.replace(/[^\w\s]/gi, '') }} // Remove special chars
+{{ $json.text.replace(/\s+/g, ' ').trim() }} // Normalize spaces</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">String Validation</div>
+                            <div class="example-desc">Check string formats</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($json.email) }} // Email
+{{ /^\+?[\d\s-]{10,}$/.test($json.phone) }}  // Phone number
+{{ /^https?:\/\//.test($json.url) }}        // URL
+{{ /^[A-Za-z0-9_-]{3,16}$/.test($json.username) }} // Username
+{{ /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($json.password) }} // Password
+{{ /^[A-Za-z\s]+$/.test($json.name) }}      // Letters and spaces only</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">String Encoding</div>
+                            <div class="example-desc">Encode and decode strings</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ encodeURIComponent($json.text) }}     // URL encode
+{{ decodeURIComponent($json.encoded) }}  // URL decode
+{{ btoa($json.text) }}                  // Base64 encode
+{{ atob($json.encoded) }}               // Base64 decode
+{{ $json.text.normalize('NFD').replace(/[\u0300-\u036f]/g, '') }} // Remove accents
+{{ $json.text.replace(/[^\x00-\x7F]/g, '') }} // Remove non-ASCII</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">String Templates</div>
+                            <div class="example-desc">Dynamic string construction</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ `Hello, ${$json.name}!` }}  // Template literal
+{{ `Order #${String($json.orderId).padStart(6, '0')}` }}  // Padded number
+{{ `Price: $${($json.price / 100).toFixed(2)}` }}  // Currency
+{{ `Expires: ${$moment($json.expiry).format('MM/DD/YYYY')}` }}  // Date in string
+{{ `Name: ${$json.firstName} ${$json.lastName}`.trim() }}  // Conditional concatenation
+{{ `Items: ${$json.items.join(', ')}` }}  // Array to string</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1143,15 +1360,119 @@
                         </div>
 
                         <div class="example-card">
-                            <div class="example-title">Array Filtering</div>
-                            <div class="example-desc">Filter and search arrays</div>
+                            <div class="example-title">Array Filtering & Searching</div>
+                            <div class="example-desc">Filter, find, and search in arrays</div>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">
                                     <i class="fas fa-copy"></i> Copy
                                 </button>
                                 <pre><code>{{ $json.items.filter(item => item.active) }}
 {{ $json.items.find(item => item.id === '123') }}
-{{ $json.items.map(item => item.name) }}</code></pre>
+{{ $json.items.some(item => item.price > 100) }}
+{{ $json.items.every(item => item.quantity > 0) }}
+{{ $json.items.findIndex(item => item.id === '123') }}
+{{ $json.items.filter(item => item.tags?.includes('sale')) }}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Array Transformation</div>
+                            <div class="example-desc">Transform array data</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.items.map(item => item.name) }}
+{{ $json.items.map((item, index) => `${index + 1}. ${item.name}`) }}
+{{ $json.items.flatMap(item => item.tags || []) }}
+{{ $json.items.reduce((total, item) => total + item.price, 0) }}
+{{ $json.items.sort((a, b) => a.price - b.price) }}
+{{ [...new Set($json.items.flatMap(item => item.categories || []))] }}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Array Manipulation</div>
+                            <div class="example-desc">Modify array contents</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ [...$json.items, {id: 'new', name: 'New Item'}] }}  // Add item
+{{ $json.items.slice(0, -1) }}  // Remove last item
+{{ $json.items.filter((_, i) => i !== 0) }}  // Remove first item
+{{ $json.items.map(item => item.id === '123' ? {...item, name: 'Updated'} : item) }}
+{{ $json.items.concat([{id: 'new1'}, {id: 'new2'}]) }}  // Concatenate arrays
+{{ $json.items.flat() }}  // Flatten nested arrays</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Array Grouping</div>
+                            <div class="example-desc">Group and organize array data</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.items.reduce((acc, item) => {
+  const category = item.category || 'Uncategorized';
+  acc[category] = [...(acc[category] || []), item];
+  return acc;
+}, {}) }}
+
+{{ $json.items.reduce((acc, item) => {
+  const date = $moment(item.date).format('YYYY-MM-DD');
+  acc[date] = (acc[date] || 0) + item.amount;
+  return acc;
+}, {}) }}
+
+{{ [...new Set($json.items.flatMap(item => item.tags || []))].map(tag => ({
+  tag,
+  count: $json.items.filter(item => item.tags?.includes(tag)).length
+})) }}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Array Pagination</div>
+                            <div class="example-desc">Implement pagination for arrays</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ (page, pageSize) => {
+  const start = (page - 1) * pageSize;
+  return {
+    items: $json.items.slice(start, start + pageSize),
+    page,
+    pageSize,
+    total: $json.items.length,
+    totalPages: Math.ceil($json.items.length / pageSize)
+  };
+} }}
+
+// Usage example (page 2, 10 items per page)
+{{ (() => {
+  const page = 2, pageSize = 10;
+  const start = (page - 1) * pageSize;
+  return $json.items.slice(start, start + pageSize);
+})() }}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Array Utilities</div>
+                            <div class="example-desc">Helpful array utilities</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ $json.items.length > 0 }}  // Check if array has items
+{{ Array.isArray($json.items) }}  // Check if is array
+{{ [...new Set($json.items.map(item => item.category))] }}  // Unique values
+{{ $json.items.flatMap(item => item.tags).filter(Boolean) }}  // Flatten and filter
+{{ $json.items.slice().sort((a, b) => new Date(b.date) - new Date(a.date)) }}  // Sort by date
+{{ $json.items.reduce((acc, item) => ({...acc, [item.id]: item}), {}) }}  // Array to object</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1159,6 +1480,140 @@
             </div>
         </section>
 
+        <!-- Object Manipulation Section -->
+        <section id="objects" class="section" data-category="intermediate">
+            <h2>
+                <i class="fas fa-cube"></i>
+                Object Manipulation
+            </h2>
+
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Object Operations</h3>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="examples-grid">
+                        <div class="example-card">
+                            <div class="example-title">Basic Object Operations</div>
+                            <div class="example-desc">Common object manipulations</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ { ...$json.user, role: 'admin' } }}  // Add/update property
+{{ Object.keys($json) }}          // Get all keys
+{{ Object.values($json) }}        // Get all values
+{{ Object.entries($json) }}       // Get [key, value] pairs
+{{ $json.hasOwnProperty('email') }} // Check if property exists
+{{ $json.user?.name ?? 'Guest' }}  // Optional chaining with fallback</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Object Transformation</div>
+                            <div class="example-desc">Transform object structure</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ Object.fromEntries(
+  Object.entries($json).map(([k, v]) => [k.toUpperCase(), v])
+) }}  // Transform keys to uppercase
+
+{{ Object.entries($json).reduce((acc, [k, v]) => ({
+  ...acc,
+  [k]: typeof v === 'string' ? v.toUpperCase() : v
+}), {}) }}  // Transform string values to uppercase
+
+{{ Object.entries($json).filter(([_, v]) => v != null).reduce((a, [k, v]) => 
+  ({ ...a, [k]: v }), {}) }}  // Remove null/undefined values</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Object Merging</div>
+                            <div class="example-desc">Combine multiple objects</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ { ...$json.defaults, ...$json.overrides } }}  // Merge with override
+{{ Object.assign({}, $json.obj1, $json.obj2) }}  // Alternative merge
+{{ 
+  Object.entries($json).reduce((acc, [k, v]) => ({
+    ...acc,
+    [k]: { ...acc[k], ...v }
+  }), {})
+}}  // Deep merge array of objects by key</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Object Filtering</div>
+                            <div class="example-desc">Filter object properties</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ Object.fromEntries(
+  Object.entries($json).filter(([_, v]) => v != null)
+) }}  // Remove null/undefined
+
+{{ Object.fromEntries(
+  Object.entries($json).filter(([k, _]) => !k.startsWith('_'))
+) }}  // Remove private fields
+
+{{ Object.fromEntries(
+  Object.entries($json).filter(([_, v]) => 
+    typeof v === 'string' && v.length > 0
+  )
+) }}  // Keep non-empty strings</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Object Sorting</div>
+                            <div class="example-desc">Sort object properties</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ Object.fromEntries(
+  Object.entries($json).sort(([a], [b]) => a.localeCompare(b))
+) }}  // Sort by key alphabetically
+
+{{ Object.fromEntries(
+  Object.entries($json).sort(([_, a], [__, b]) => 
+    (a.timestamp || 0) - (b.timestamp || 0)
+  )
+) }}  // Sort by nested property
+
+{{ Object.entries($json)
+  .sort(([_, a], [__, b]) => b.priority - a.priority)
+  .reduce((a, [k, v]) => ({ ...a, [k]: v }), {}) 
+}}  // Sort by value and reconstruct</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-title">Object Utilities</div>
+                            <div class="example-desc">Helpful object utilities</div>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code>{{ JSON.stringify($json, null, 2) }}  // Pretty print
+{{ Object.keys($json).length }}  // Count properties
+{{ Object.values($json).every(v => v.valid) }}  // All valid
+{{ Object.values($json).some(v => v.active) }}  // Any active
+{{ Object.entries($json).find(([_, v]) => v.id === '123')?.[0] }}  // Find key by value</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <!-- Footer -->
